@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Hello, {{name}}!</h2>
+    <h4>Your wish list:</h4>
+    <a href="{% url 'logout' %}">Logout</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Added By</th>
+                <th>Date Added</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {%for item in wished_items%}
+            <tr>
+                <td><a href="{% url 'who_added' item.pk %}">{{item.item}}</a></td>
+                <td>{{item.uploader.name}}</td>
+                <td>{{item.date_added}}</td> 
+               <td><a href="{% url 'delete' item.pk %}">Delete</a><a href="{% url 'remove' item.pk %}">Remove</a></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <h2>Other Users' Wish List</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Added By</th>
+                <th>Date Added</th>
+                <th>Action</th>                
+            </tr>
+        </thead>
+
+        <tbody>
+            {%for item in havent_wished %}
+            <tr>
+                <td><a href="{% url 'who_added' item.pk %}">{{item.item}}</a></td>
+                <td>{{item.uploader.name}}</td>
+                <td>{{item.date_added}}</td> 
+                <td><a href="{% url 'add_to' item.pk %}">Add to</a></td>   
+            </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add_item' %}">Add</a>
+</body>
+</html>
